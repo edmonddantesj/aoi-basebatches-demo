@@ -1,0 +1,39 @@
+{
+  "version": "v0.1",
+  "updated_at": "2026-02-25T00:00:00Z",
+  "workflows": [
+    {
+      "id": "erc20_transfer_alert",
+      "status": "active",
+      "chain": "base",
+      "mode": "READ_ONLY",
+      "description": "Read-only ERC-20 Transfer log scan on Base and emit a signed Execution Receipt + optional Telegram alert.",
+      "inputs": {
+        "token_address": { "type": "string", "required": true, "example": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" },
+        "lookback_blocks": { "type": "number", "required": false, "default": 25, "min": 1, "max": 2000, "note": "Provider caps may reduce range automatically." },
+        "rpc_url": { "type": "string", "required": false, "default": "BASE_RPC_URL or https://mainnet.base.org" }
+      },
+      "outputs": {
+        "transfer_events_found": "number",
+        "from_block": "string",
+        "to_block": "string",
+        "sample": "array (max 3 logs)"
+      },
+      "policy": {
+        "deny_by_default": true,
+        "capability_manifest": {
+          "chain_read": ["base"],
+          "wallet_tx": false,
+          "network": ["base-rpc"],
+          "secrets": false
+        }
+      },
+      "failure_modes": [
+        "invalid token_address",
+        "RPC rate limits / provider caps",
+        "eth_getLogs timeout",
+        "policy/verification failure (fail-closed)"
+      ]
+    }
+  ]
+}
