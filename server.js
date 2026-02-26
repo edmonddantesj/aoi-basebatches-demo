@@ -926,14 +926,34 @@ const server = createServer(async (req, res) => {
 
 
   // Static SPA fallback (for refresh / direct link: /skill/:id)
-  // If `dist/` exists (after `npm run build`), serve index.html for unknown routes.
+  // We also use this to host a minimal verification homepage for base.dev builder codes.
   if (req.method === 'GET' && !req.url?.startsWith('/api/')) {
     try {
       const requestPath = url.pathname;
+
+      // Always serve the verification homepage for root.
+      if (requestPath === '/') {
+        const idx = path.join(DIST_DIR, 'index.html');
+        if (fs.existsSync(idx)) {
+          const data = fs.readFileSync(idx);
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          return res.end(data);
+        }
+
+        // Fallback: embedded minimal HTML (in case dist is missing on the host)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.end(`<!doctype html><html><head><meta charset="UTF-8" />\n<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n<meta name="base:app_id" content="699fa7210425a9b01ee8cbbd" />\n<title>AOI — Proof-first Execution Demo</title></head><body style="background:#071627;color:#e8f1ff;font-family:system-ui;margin:0;padding:32px"><h1>AOI public demo</h1><p>Endpoints: <code>/api/core/workflows</code>, <code>/api/demo/runverify</code></p></body></html>`);
+      }
+
       const hasExtension = path.extname(requestPath) !== '';
 
+      // If path begins with '/', remove it before joining to avoid absolute-path override.
+      const relPath = requestPath.startsWith('/') ? requestPath.slice(1) : requestPath;
+
       const filePath = hasExtension
-        ? path.join(DIST_DIR, requestPath)
+        ? path.join(DIST_DIR, relPath)
         : path.join(DIST_DIR, 'index.html');
 
       const safePath = path.normalize(filePath);
