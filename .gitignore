@@ -8,7 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+
+# dist is used for a static verification homepage in this demo repo
+!dist/
 dist-ssr
 *.local
 
