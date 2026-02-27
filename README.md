@@ -1,72 +1,50 @@
-# 🏪 NEXUS Bazaar — Agent Skill Marketplace on Base
+# 🧾 NEXUS Bazaar — Verifiable Execution Receipts (Base Batches Demo)
 
-> **Search anywhere. Trust through Bazaar.**
+> **Search anywhere. Verify through receipts.**
 
-NEXUS Bazaar is the first **federated skill marketplace** for AI agents, built on Base. Agents can discover, evaluate, and purchase skills from multiple sources — all with built-in trust verification and on-chain settlement.
+This repo is a **Base Batches demo** for NEXUS Bazaar — a federated skill marketplace concept for AI agents on Base.
 
 ## 🎯 What is this?
 
-A marketplace where **AI agents autonomously**:
-1. **Login** with their own wallet (Privy or Coinbase Agentic Wallet)
-2. **Search** skills across Bazaar, ClawHub, GitHub, and NPM
-3. **Evaluate** trust signals (S-DNA verification, Guardian security scan, Core-Temp reputation)
-4. **Purchase** skills with USDC on Base
-5. **Generate proof** of every transaction for auditability
+A workflow where AI agents can:
+1. **Search** skills across multiple sources (Bazaar, ClawHub, GitHub, NPM)
+2. **Simulate** a purchase / install decision (DRY_RUN)
+3. **Generate an Execution Receipt** for every run
 
-## 🏗️ Architecture
+### What is an Execution Receipt?
+An **Execution Receipt** is a small, auditable artifact bundle that makes a run **verifiable and tamper‑evident**.
+It typically includes:
+- inputs + outputs
+- timestamps
+- and SHA‑256 hashes
+
+> We intentionally keep deeper trust mechanisms out of this public demo.
+
+## 🏗️ Architecture (high level)
 
 ```
 ┌─────────────────────────────────────────────┐
-│              NEXUS Bazaar                   │
+│              NEXUS Bazaar (Demo)            │
 │                                             │
-│  ┌──────────┐  ┌─────────────────────────┐ │
-│  │  Skill   │  │   Skill Aggregator      │ │
-│  │  Market  │  │  (Federated Search)     │ │
-│  │ (Native) │  │                         │ │
-│  │          │  │  ClawHub · GitHub · NPM │ │
-│  └────┬─────┘  └────────────┬────────────┘ │
-│       │                     │              │
-│       └──────────┬──────────┘              │
-│                  ▼                         │
-│          Trust Engine                      │
-│    S-DNA · Guardian · Core-Temp            │
-│                  ▼                         │
-│          Settlement Layer                  │
-│     USDC on Base · DRY_RUN proofs          │
+│  ┌──────────┐   ┌────────────────────────┐  │
+│  │  Market  │   │   Aggregated Search    │  │
+│  │  UI      │   │  (ClawHub/GitHub/NPM)  │  │
+│  └────┬─────┘   └───────────┬────────────┘  │
+│       │                     │               │
+│       └──────────┬──────────┘               │
+│                  ▼                          │
+│          Receipt Generator                  │
+│   Execution Receipt · sha256 · DRY_RUN      │
 └─────────────────────────────────────────────┘
 ```
 
-### Two-Layer Design
-
-| Layer | Name | Function |
-|-------|------|----------|
-| **Layer A** | Listing Aggregator | Unified search across 4+ sources |
-| **Layer B** | Decision Aggregator | Trust comparison, price routing, attribution |
-
-### Wallet Options
-
-| Wallet | Target | Integration |
-|--------|--------|-------------|
-| 🔐 **Privy** | Teams / Enterprise | Role-based policies, embedded wallets |
-| 💰 **Agentic Wallet** | Solo agents | 2-min setup, CLI-native, x402 payments |
-
-## 🛡️ Trust Model
-
-Every skill is evaluated on three axes:
-
-- **🧬 S-DNA** — Cryptographic origin verification (who made it?)
-- **🛡️ Guardian** — Automated security scan (is it safe?)
-- **🌡️ Core-Temp** — Reputation score (is the author trusted?)
-
-External skills are **untrusted by default**. Bazaar native skills carry verified trust badges.
-
 ### CLICK_OUT_ONLY Policy
 
-External skills are **never hosted or executed** by Bazaar. We provide:
+External skills are **never hosted or executed** by this demo repo.
+We provide:
 - Discovery (search results)
-- Trust comparison (Guardian scan available)
-- Attribution tracking (outbound event logging)
-- Migration path (list on Bazaar for full trust)
+- Outbound event logging (optional)
+- Receipt generation for reproducibility
 
 ## 🚀 Quick Start
 
@@ -114,15 +92,14 @@ demo/
     └── simulator.py             # 6-agent trading arena
 ```
 
-## 🔑 Key Differentiators
+## 🔑 Key Differentiators (Demo focus)
 
-| Feature | Traditional Marketplaces | NEXUS Bazaar |
-|---------|------------------------|--------------|
-| **Buyer** | Humans | AI Agents |
-| **Discovery** | Single platform | Federated (4+ sources) |
-| **Trust** | Reviews/stars | Cryptographic (S-DNA + Guardian) |
-| **Settlement** | Credit card | USDC on Base (gasless) |
-| **Execution** | Manual install | Agent-to-agent (x402) |
+| Feature | Typical demos | This demo |
+|---------|--------------|-----------|
+| **Discovery** | Single source | Federated (4+ sources) |
+| **Mode** | Live / unclear | **DRY_RUN** with clear outputs |
+| **Verification** | Trust me | **Execution Receipts** (sha256 + artifacts) |
+| **Reproducibility** | Manual | Scriptable, audit-friendly |
 
 ## ⚡ Tech Stack
 
