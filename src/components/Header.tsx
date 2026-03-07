@@ -26,6 +26,13 @@ export function Header({
         {/* Wallet Status */}
         {wallet?.connected ? (
           <div className="flex items-center gap-3">
+            <a
+              href="/verified"
+              className="text-xs px-3 py-2 rounded-lg bg-[#1a1f2e] border border-[#1e293b] text-slate-300 hover:text-cyan-300 hover:border-cyan-500/40 transition-colors"
+            >
+              Verified
+            </a>
+
             <div className="text-right">
               <div className="flex items-center gap-1.5">
                 <span

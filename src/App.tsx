@@ -5,12 +5,17 @@ import { getOnChainBalance } from './lib/chain';
 import { LoginPage } from './pages/LoginPage';
 import { MarketPage } from './pages/MarketPage';
 import { SkillDetailPage } from './pages/SkillDetailPage';
+import { VerifiedPage } from './pages/VerifiedPage';
 import type { Skill } from './bazaar/mock-data';
 import { fetchSkillById, searchSkills } from './lib/aggregator';
 
 function extractSkillId(pathname: string): string | null {
   const match = pathname.match(/^\/skill\/(.+)$/);
   return match ? decodeURIComponent(match[1]) : null;
+}
+
+function isVerifiedRoute(pathname: string) {
+  return pathname === '/verified';
 }
 
 export default function App() {
@@ -24,6 +29,7 @@ export default function App() {
   const { wallets } = useWallets();
 
   const skillIdInRoute = useMemo(() => extractSkillId(routePath), [routePath]);
+  const isVerified = useMemo(() => isVerifiedRoute(routePath), [routePath]);
 
   const navigate = useCallback((path: string) => {
     if (window.location.pathname !== path) {
@@ -42,6 +48,7 @@ export default function App() {
   const closeDetail = useCallback(() => {
     navigate('/');
   }, [navigate]);
+
 
   useEffect(() => {
     const onPopState = () => setRoutePath(window.location.pathname);
@@ -150,6 +157,16 @@ export default function App() {
 
   if (!wallet) {
     return <LoginPage onConnect={handleAwalConnect} onPrivyLogin={handlePrivyLogin} />;
+  }
+
+  if (isVerified) {
+    return (
+      <VerifiedPage
+        wallet={wallet}
+        onDisconnect={handleDisconnect}
+        onBackToMarket={closeDetail}
+      />
+    );
   }
 
   if (skillIdInRoute) {

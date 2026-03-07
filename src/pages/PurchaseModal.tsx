@@ -4,6 +4,7 @@ import type { WalletSession, TxResult } from '../wallet/types';
 import { awalAdapter } from '../wallet/awal-adapter';
 import { createPrivyAdapter } from '../wallet/privy-adapter';
 import { logClickout } from '../lib/aggregator';
+import { saveReceipt } from '../lib/receipts';
 
 export function PurchaseModal({
   skill,
@@ -119,6 +120,14 @@ export function PurchaseModal({
     );
     result.proof.skill_id = skill.id;
     result.proof.skill_name = skill.name;
+
+    // Persist a local receipt so /verified can show proof bundle.
+    try {
+      saveReceipt({ tx: result, skill });
+    } catch {
+      // best-effort
+    }
+
     setTxResult(result);
     setStage('done');
   };
@@ -152,6 +161,17 @@ export function PurchaseModal({
             <Row label="Chain" value={txResult.chain} />
             <Row label="Wallet" value={txResult.proof.wallet_provider} />
             <Row label="Tx Hash" value={txResult.txHash.slice(0, 18) + '...'} mono />
+            <div className="flex justify-between">
+              <span className="text-slate-500">Explorer</span>
+              <a
+                className="text-cyan-300 underline text-xs"
+                href={`https://sepolia.basescan.org/tx/${txResult.txHash}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open ↗
+              </a>
+            </div>
           </div>
 
           {/* Proof JSON */}
