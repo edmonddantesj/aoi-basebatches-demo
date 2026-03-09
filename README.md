@@ -2,11 +2,17 @@
 
 **Proof-first AI action infrastructure on Base.**
 
+**Base serves as an evidence-bearing coordination layer for agent actions.**
+
 Aoineco helps AI-assisted workflows produce **verified actions**, **auditable evidence**, and **reviewable outputs** — not just opaque automation logs.
 
 Many AI systems can generate outputs. Some can take actions. Very few can clearly show **what happened, whether it succeeded, and how the result should be reviewed**. This repository is the public demo slice of Aoineco’s answer to that problem.
 
 > AI actions should not only run — they should leave behind evidence.
+
+![Aoineco demo flow](./public/assets/README_demo_flow.gif)
+
+*Proof-first demo flow: connect, run, verify, review.*
 
 ---
 
@@ -137,7 +143,7 @@ For supporting material, see:
 
 ## Why Base
 
-We believe Base is a strong fit for proof-oriented AI workflows.
+We see Base as the trust layer for verifiable AI-assisted workflows.
 
 ### Base gives us a practical trust foundation
 
