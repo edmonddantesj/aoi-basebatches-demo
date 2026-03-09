@@ -2,7 +2,7 @@
 
 **Proof-first AI action infrastructure on Base.**
 
-**Base serves as an evidence-bearing coordination layer for agent actions.**
+**Base gives agent actions a composable path from execution to evidence.**
 
 Aoineco helps AI-assisted workflows produce **verified actions**, **auditable evidence**, and **reviewable outputs** — not just opaque automation logs.
 
