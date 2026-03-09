@@ -10,7 +10,7 @@ Many AI systems can generate outputs. Some can take actions. Very few can clearl
 
 > AI actions should not only run — they should leave behind evidence.
 
-![Aoineco demo flow](./public/assets/README_demo_flow_poster.png)
+![Aoineco demo flow](./public/assets/README_hero_v3.png)
 
 *Proof-first demo flow: connect, run, verify, review.*
 
