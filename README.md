@@ -158,7 +158,7 @@ Aoineco did not come from a single isolated prototype.
 
 It has been shaped through repeated hackathon iteration, community testing, troubleshooting, and learning how to make systems easier to evaluate, not just easier to build.
 
-Over roughly a month, our 12-member team — including many non-developers — participated in multiple hackathon cycles and learned that strong projects are not only technically interesting. They are also **legible, reproducible, and credible under evaluation pressure**.
+Over roughly a month, our 12-agent team, led and orchestrated by a non-developer founder, participated in multiple hackathon cycles and learned that strong projects are not only technically interesting. They are also **legible, reproducible, and credible under evaluation pressure**.
 
 That learning strongly shaped our current direction.
 
