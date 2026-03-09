@@ -3,6 +3,10 @@
 .aoi-allowlist
 ARCHITECTURE.md
 README.md
+SUBMISSION_SUMMARY.md
+SUBMISSION_CHECKLIST.md
+EVIDENCE_LOG.md
+examples/
 package.json
 package-lock.json
 server.js

@@ -1,0 +1,27 @@
+{
+  "receipt_version": "v0.1",
+  "receipt_id": "rcpt_demo_public_sample",
+  "workflow": "erc20_transfer_alert",
+  "issued_at": "2026-03-09T14:12:00Z",
+  "duration_ms": 428,
+  "cost_usd": 0.0,
+  "policy": {
+    "decision": "ALLOW",
+    "mode": "READ_ONLY",
+    "capability_manifest": {
+      "chain_read": ["base"],
+      "wallet_tx": false,
+      "network": ["base-rpc"],
+      "secrets": false
+    }
+  },
+  "result": {
+    "ok": true,
+    "summary": {
+      "token_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "scanned_blocks": 10,
+      "transfer_events_found": 3
+    }
+  },
+  "note": "Sanitized public sample for reviewer orientation."
+}

@@ -1,86 +1,196 @@
-# Bazaar Demo App — Architecture
+# Architecture
 
-## 목적
-3/9 Base Batches 제출용 데모. 에이전트가 지갑 로그인 → Bazaar에서 스킬 검색 → 구매(DRY_RUN) 전체 플로우 시연.
+## Goal
 
-## 지갑 연결: 2-Option (따로따로)
+This repository is a **public-safe Base Batches demo** for Aoineco.
 
-```
-┌─────────────────────────────────────────┐
-│           Login Screen                  │
-│                                         │
-│   [ 🔐 Privy Login ]   [ 💰 awal Login ]│
-│                                         │
-│   → Privy 세션          → awal 세션      │
-│   → Privy 지갑 주소      → awal 지갑 주소  │
-│                                         │
-│   ─────── 로그인 후 동일 UI ───────       │
-│                                         │
-│   Bazaar Skill Market                   │
-│   Skill Aggregator Search               │
-│   구매 → DRY_RUN tx → 증빙 생성          │
-└─────────────────────────────────────────┘
-```
+It demonstrates a narrow but important slice of the broader product direction:
 
-## 향후: Wallet Adapter (프로덕션)
-- 공통 인터페이스: `getAddress()`, `getBalance()`, `send()`, `sign()`
-- Privy/awal 각각 adapter 구현 → 지갑 종류 무관하게 Bazaar 작동
+- agent-facing execution flows
+- proof-oriented outputs
+- auditable receipts
+- verification-friendly interfaces
 
-## 기술 스택
-- **Frontend:** React + Vite + Tailwind CSS
-- **Privy:** @privy-io/react-auth
-- **awal:** CLI wrapper (npx awal) → API bridge
-- **Chain:** Base Sepolia (테스트넷)
-- **데모 모드:** DRY_RUN only (실제 서명 없음)
+The design goal is not maximum complexity.
+It is **maximum reviewer clarity**.
 
-## 폴더 구조
-```
-demo/bazaar-app/
-├── ARCHITECTURE.md          ← 이 파일
-├── package.json
-├── vite.config.ts
-├── tailwind.config.js
-├── src/
-│   ├── main.tsx
-│   ├── App.tsx
-│   ├── pages/
-│   │   ├── LoginPage.tsx      ← 2-Option 로그인
-│   │   ├── MarketPage.tsx     ← Skill Market + 검색
-│   │   └── PurchasePage.tsx   ← 구매 + DRY_RUN tx
-│   ├── wallet/
-│   │   ├── types.ts           ← 공통 WalletSession 인터페이스
-│   │   ├── privy-adapter.ts   ← Privy 연결
-│   │   └── awal-adapter.ts    ← awal CLI bridge
-│   ├── bazaar/
-│   │   ├── SkillSearch.tsx    ← Aggregator 검색 UI
-│   │   ├── SkillCard.tsx      ← 스킬 카드 컴포넌트
-│   │   └── mock-data.ts      ← 데모용 스킬 목록
-│   ├── components/
-│   │   ├── Header.tsx
-│   │   └── WalletBadge.tsx    ← 연결된 지갑 표시
-│   └── lib/
-│       ├── proof.ts           ← 증빙 JSON 생성
-│       └── dry-run.ts         ← DRY_RUN tx 시뮬레이션
-├── public/
-│   └── assets/
-└── .env.example
+---
+
+## Product framing
+
+At a high level:
+
+- the frontend shows a Base-oriented AI skill / action workflow
+- the server exposes read-only and dry-run proof flows
+- the system produces artifacts that can be inspected later
+
+This supports Aoineco's broader thesis:
+
+**verified actions → auditable records → proof-linked workflows → The Archive**
+
+---
+
+## System overview
+
+```text
+┌──────────────────────────────────────────────────────────┐
+│                    AOI Base Batches Demo                 │
+├──────────────────────────────────────────────────────────┤
+│ Frontend (React / Vite)                                 │
+│  - login                                                 │
+│  - market / search                                       │
+│  - skill detail                                          │
+│  - dry-run purchase flow                                 │
+│  - verified receipts view                                │
+├──────────────────────────────────────────────────────────┤
+│ Bridge / Server (Node)                                   │
+│  - aggregator endpoints                                  │
+│  - clickout logging                                      │
+│  - workflow registry                                     │
+│  - public demo run+verify endpoint                       │
+│  - signed receipt generation + verification              │
+├──────────────────────────────────────────────────────────┤
+│ State / Evidence                                         │
+│  - local receipt storage                                 │
+│  - workflow registry JSON                                │
+│  - receipt JSONL / identity / api key state              │
+└──────────────────────────────────────────────────────────┘
 ```
 
-## DRY_RUN 정책
-- 모든 트랜잭션은 시뮬레이션만 수행
-- 실제 on-chain 서명/전송 절대 없음
-- tx receipt는 mock으로 생성하되, 실제 포맷과 동일
-- 증빙: `{ type: "DRY_RUN", wallet, skill, amount, timestamp, simulated_tx_hash }`
+---
 
-## 데모 시나리오 (3/9 제출용)
-1. 화면: 2-Option 로그인 → Privy 선택 → 지갑 연결됨
-2. Bazaar Skill Market 진입 → 스킬 목록 표시
-3. Aggregator 검색 → "trading strategy" 검색 → 외부(ClawHub/GitHub) 결과 포함
-4. 스킬 선택 → 가격/S-DNA/Guardian 스캔 결과 표시
-5. "Purchase (DRY_RUN)" 클릭 → 시뮬레이션 tx 생성
-6. 증빙 화면: proof JSON + tx receipt 표시
-7. (옵션) awal 로그인으로 전환 → 동일 플로우 반복
+## Frontend structure
 
-## Exposure
-- **STEALTH** — 데모 코드/영상은 Base Batches 제출 전용
-- Arena 관련 일체 노출 없음
+### Key routes / screens
+- `LoginPage` — wallet entry point
+- `MarketPage` — skill discovery surface
+- `SkillDetailPage` — individual item review / action entry
+- `VerifiedPage` — local execution receipt inspection
+
+### Frontend responsibilities
+- present a clean reviewer-facing flow
+- keep the demo understandable in a few minutes
+- generate local receipt artifacts for the demo journey
+- expose proof JSON instead of hiding everything behind UI polish
+
+---
+
+## Server responsibilities
+
+`server.js` is the core bridge for the demo.
+
+It currently handles:
+
+### 1. Aggregation layer
+- search across Bazaar / ClawHub / GitHub / npm
+- fetch skill detail by id
+- clickout logging for external results
+
+### 2. Proof / receipt layer
+- identity creation
+- API key creation
+- workflow registry exposure
+- signed receipt generation
+- receipt verification
+
+### 3. Demo verification layer
+- public `runverify` endpoint
+- read-only workflow execution path
+- explicit rate limits for public-safe demo usage
+
+This matters because the repository should not just say “trust us.”
+It should expose a small but real verification surface.
+
+---
+
+## Current workflow model
+
+The most important public workflow right now is:
+
+- `erc20_transfer_alert`
+
+This workflow is intentionally constrained:
+
+- read-only
+- deny-by-default policy framing
+- explicit capability manifest
+- receipt generation
+- verification path
+
+That makes it a better demo for trust infrastructure than a flashy but opaque onchain action.
+
+---
+
+## Proof model in this repo
+
+There are two proof surfaces in the current codebase:
+
+### A. Frontend-local demo receipts
+Used for reviewer-visible purchase / dry-run interactions.
+
+### B. Server-side signed execution receipts
+Used for workflow execution and verification endpoints.
+
+Together, they support the central claim:
+
+**the system should leave behind structured evidence of what happened.**
+
+---
+
+## Security / safety posture
+
+This demo is intentionally conservative.
+
+### Principles
+- read-only where possible
+- dry-run where execution would be misleading or risky
+- public-safe defaults
+- no requirement to expose production credentials
+
+### Public demo guardrails
+- rate-limited public endpoint
+- limited workflow scope
+- explicit capability manifest
+- no production wallet execution path in public demo framing
+
+---
+
+## What is intentionally not shown
+
+To keep the public repo reviewer-friendly, this repo does not try to expose everything.
+
+It does **not** claim to contain:
+- the full internal trust stack
+- the full company roadmap implementation
+- the complete Archive layer
+- all internal orchestration / governance logic
+
+Those belong to the broader company and product story.
+
+This repo is the **submission-friendly public demo slice**.
+
+---
+
+## Mapping to Aoineco thesis
+
+### Today in this repo
+- demonstrable proof objects
+- inspectable flows
+- verification-friendly endpoints
+- Base-oriented demo framing
+
+### Tomorrow beyond this repo
+- richer verified action models
+- stronger auditability and provenance
+- workflow chaining
+- long-term accumulation into The Archive
+
+---
+
+## Reviewer takeaway
+
+If a reviewer only remembers one thing, it should be this:
+
+> Aoineco is building AI infrastructure where actions can be checked later.
+
+This repository is a small, concrete demonstration of that belief.
