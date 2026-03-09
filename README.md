@@ -1,58 +1,47 @@
-# AOI Base Batches Demo
+# Aoineco Base Batches Demo
 
-> Proof-first AI infrastructure for verified actions, auditable records, and proof-linked workflows.
+**Proof-first AI action infrastructure on Base.**
 
-This repository is the **public demo repo** for Aoineco's Base Batches application.
+Aoineco helps AI-assisted workflows produce **verified actions**, **auditable evidence**, and **reviewable outputs** — not just opaque automation logs.
 
-It shows a simple but important idea:
+Many AI systems can generate outputs. Some can take actions. Very few can clearly show **what happened, whether it succeeded, and how the result should be reviewed**. This repository is the public demo slice of Aoineco’s answer to that problem.
 
-**AI systems should not only act — they should leave behind proof.**
+> AI actions should not only run — they should leave behind evidence.
 
-## The problem
+---
 
-AI agents can execute actions, but teams still struggle to trust them in real workflows because the process is often hard to inspect later.
+## What makes this different
 
-What matters in practice is not only that something happened, but also:
-- what was executed
-- under what inputs or conditions
-- whether the output can be checked later
-- whether the workflow leaves behind evidence instead of only claims
+Many AI demos focus on what a model can say.  
+Aoineco focuses on what an AI-assisted workflow can **prove**.
 
-Aoineco is building toward that missing layer.
+That means designing around:
 
-## Judge in 2 minutes
+- **verification**, not just output
+- **evidence**, not just claims
+- **reviewability**, not just automation
+- **operational truth**, not just happy-path demos
 
-### 1) Install
-```bash
-npm install
-```
+We are less interested in black-box execution and more interested in building workflows that can be **checked, interpreted, and trusted**.
 
-### 2) Run
-```bash
-npm run bridge
-npm run dev
-```
+---
 
-### 3) Verify the core idea
-Try the demo verification flow:
+## Why this matters
 
-```bash
-curl -sS -X POST http://localhost:3098/api/demo/runverify \
-  -H "content-type: application/json" \
-  -d '{}'
-```
+As AI-assisted systems move into real workflows, trust becomes a product requirement.
 
-Expected shape of result:
-- a `receipt_id`
-- a verification result
-- structured evidence payload
+If an AI-assisted process cannot be checked after the fact, then users, collaborators, and evaluators are left with a black box. That becomes especially problematic when actions matter more than generated text.
 
-You can also inspect:
-- `GET /api/core/workflows`
-- `POST /api/core/verify`
-- `examples/sample_execution_receipt.json`
+Aoineco is being built around a simple principle:
 
-**The point of the repo is not only UI. The point is that a run should leave behind something inspectable.**
+- important actions should be **verifiable**
+- outcomes should be **human-readable**
+- failures should be **interpretable**
+- evidence should be **preserved**
+
+In short: execution without evidence is not enough.
+
+---
 
 ## What this demo shows
 
@@ -65,63 +54,119 @@ This repository focuses on a narrow, reviewable slice of the broader product dir
 - verification-friendly endpoints
 - an early path toward accumulated verified outcomes
 
-In short:
+This is not a claim of full product completeness. It is a public, inspectable demo of a larger thesis:
 
-**we are not pitching “AI magic.”**
-We are pitching a proof-first execution model for AI systems.
+**AI-assisted execution should produce proof, not just output.**
 
-## Why this matters for Base Batches
+---
 
-For Base Batches, we want to show that:
+## Judges Quickstart
 
-1. **Aoineco is building proof-first AI infrastructure**
-2. **Base is a strong environment for machine-usable, inspectable workflows**
-3. even an early demo can produce reviewable outputs instead of black-box claims
+If you only have a few minutes, focus on these:
+
+1. **Core idea**  
+   Aoineco is about **verified actions** and **evidence-first execution**
+
+2. **Verification evidence**  
+   Community testing produced multiple successful verified cases, including a retry-resolved case that informed our operational logic
+
+3. **Trust model**  
+   We are building toward a system where AI-assisted actions produce outputs that are reviewable, portable, and eventually archiveable
+
+4. **Why Base**  
+   Base is the practical foundation we see for composable, trust-oriented execution history
+
+### Run locally
+
+```bash
+npm install
+npm run bridge
+npm run dev
+```
+
+### Verify the core idea
+
+```bash
+curl -sS -X POST http://localhost:3098/api/demo/runverify \
+  -H "content-type: application/json" \
+  -d '{}'
+```
+
+Expected result shape:
+
+- a `receipt_id`
+- a verification result
+- a structured evidence payload
+
+You can also inspect:
+
+- `GET /api/core/workflows`
+- `POST /api/core/verify`
+- `examples/sample_execution_receipt.json`
+
+The point of the repo is not only UI. The point is that a run should leave behind something inspectable.
+
+---
+
+## Verification Evidence
+
+We collected evidence for **9 successful verified cases** through community testing.
+
+### Highlights
+
+- **9 successful verification outcomes**
+- **1 retry-resolved case**: an initial `502` gateway error was later resolved, ending in `verified=True`
+- This helped us distinguish between **transient infrastructure failure** and **true verification failure**
+
+### Why this matters
+
+This was not a purely theoretical design decision.
+
+It came from real testing, real retries, and real review of outputs. That experience reinforced an important product principle:
+
+> evidence matters more than assumptions
+
+In practice, this means Aoineco is being shaped around operational reality, not just ideal demo conditions.
+
+For supporting material, see:
+
+- `VERIFIED_EVIDENCE_SUMMARY.md`
+- `EVIDENCE_LOG.md`
+
+---
 
 ## Why Base
 
-We think Base is a strong fit for this direction because it supports:
+We believe Base is a strong fit for proof-oriented AI workflows.
 
-- low-cost machine activity
-- wallet-connected user participation
-- onchain-adjacent verification and settlement flows
-- early evidence layers for Base-native machine actions
+### Base gives us a practical trust foundation
 
-We do **not** claim that every part of the system must live onchain.
+- **Low-friction coordination** for fast product iteration
+- **Composable public infrastructure** for verification-oriented systems
+- A path from workflow outputs to **reviewable, attestable history**
+- A strong builder environment for products where credibility matters as much as functionality
 
-Our claim is narrower and more practical:
+We do not see Base simply as somewhere to deploy an app.
 
-- actions need proof
-- proofs need stable references
-- workflows need outputs that can be checked later
-- Base is a strong place to start building that stack
+We see it as a place where **AI-assisted actions can become more accountable over time**.
 
-## What makes this more than a concept demo
+---
 
-This project is no longer only an internal mockup.
+## Built through iteration
 
-### Early validated usage
-- approximately **8 verified outcomes** have already been collected in early demo / validation context
-- the verification flow has been exercised by real users outside the core build loop
-- we are preparing an Archive-style surface to display accumulated verified outcomes more clearly
+Aoineco did not come from a single isolated prototype.
 
-### Public distribution and participation
-We also used public distribution to bring external users into the verification flow.
+It has been shaped through repeated hackathon iteration, community testing, troubleshooting, and learning how to make systems easier to evaluate, not just easier to build.
 
-On **2026-02-26**, we published an X post inviting people to run the demo and return verification outputs such as:
-- `VERIFIED=True`
-- `RECEIPT_ID=...`
+Over roughly a month, our 12-member team — including many non-developers — participated in multiple hackathon cycles and learned that strong projects are not only technically interesting. They are also **legible, reproducible, and credible under evaluation pressure**.
 
-This mattered because it helped move the project beyond an internal-only prototype and into a workflow that outside users could actually enter.
+That learning strongly shaped our current direction.
 
-### Failure → fix → verified success
-Not every flow worked on the first try.
+Our broader experimentation has also included Base-native coordination across a company wallet, individually provisioned Privy wallets for team members, and ACP-linked wallets used for role-based skill selection, purchasing, and analysis. This was not just transaction activity for its own sake: it led to **ACP Dispatch**, a GitHub-published markdown reporting format that helps both humans and agents review ACP skill information more efficiently.
 
-That is part of the evidence.
+---
 
-We tested the workflow with real users, observed failure cases, diagnosed issues, iterated, and then produced verified outcomes. Representative screenshots and evidence notes are being prepared to show not only success states, but also the hardening process behind them.
-
-## Current vs vision
+## Current scope vs. broader vision
 
 | Layer | What exists now | What comes next |
 |------|------------------|-----------------|
@@ -129,37 +174,12 @@ We tested the workflow with real users, observed failure cases, diagnosed issues
 | **Near-term product step** | limited AOI PRO beta with external testers | early Archive experience, visible verified outcome accumulation, small live Base transactions |
 | **Long-term vision** | proof-first execution model | **The Archive** — a trustworthy history of verified work |
 
-## AOI PRO beta context
-
-We are currently running a limited **AOI PRO beta** with external testers.
-
-Public-safe description of the beta includes:
-- wallet-connected demo participation
-- visible verification outcomes
-- early proof-linked workflow testing
-- preparation for small real Base transactions after the beta period
-
-After the beta phase, we plan to open an early Archive experience and begin very small wallet-based purchases on Base starting from **$0.01 USDC** in order to seed the first live proof trail.
-
-The goal is to test proof accumulation and real usage behavior, not to optimize short-term revenue.
-
-## What Aoineco is actually building
-
-At the company level, the direction is larger than this demo.
-
-We are building infrastructure for:
-- **verified actions**
-- **auditable records**
-- **proof-linked workflows**
-
-And over time, those verified results should accumulate into:
-- **The Archive** — a trustworthy history of verified work
-
-This repository shows the **current public demo slice**, not the entire product.
+---
 
 ## Public endpoints worth checking
 
 Read-only / demo-oriented endpoints include:
+
 - `GET /api/core/workflows`
 - `POST /api/demo/runverify`
 - `POST /api/core/verify`
@@ -169,21 +189,26 @@ These matter because they expose the repo’s core thesis more directly than UI 
 
 **a run should produce something verifiable.**
 
+---
+
 ## Reviewer guide
 
 If you only inspect a few things, inspect these:
+
 - `README.md`
 - `SUBMISSION_SUMMARY.md`
 - `VERIFIED_EVIDENCE_SUMMARY.md`
 - `examples/sample_execution_receipt.json`
 - `server.js`
 
+---
+
 ## Repository guide
 
 - `README.md` — reviewer entry point
 - `ARCHITECTURE.md` — current technical structure
 - `SUBMISSION_SUMMARY.md` — submission-facing summary
-- `VERIFIED_EVIDENCE_SUMMARY.md` — validated usage, participation, and Archive direction
+- `VERIFIED_EVIDENCE_SUMMARY.md` — validated usage, participation, and verification notes
 - `EVIDENCE_LOG.md` — evidence index and supporting notes
 - `SUBMISSION_CHECKLIST.md` — packaging checklist
 - `examples/sample_execution_receipt.json` — sanitized reviewer sample
@@ -191,25 +216,32 @@ If you only inspect a few things, inspect these:
 - `src/` — frontend demo app
 - `default_workflows.json` — public workflow registry
 
-## Credits placeholder
+---
 
-We promised to acknowledge early contributors who helped generate verified outcomes.
+## Acknowledgments
 
-### Early verification contributors (placeholder)
-1. TBD — X: TBD — verified image: pending
-2. TBD — X: TBD — verified image: pending
-3. TBD — X: TBD — verified image: pending
-4. TBD — X: TBD — verified image: pending
-5. TBD — X: TBD — verified image: pending
-6. TBD — X: TBD — verified image: pending
-7. TBD — X: TBD — verified image: pending
-8. TBD — X: TBD — verified image: pending
+Huge thanks to these community members for their help with verification testing, troubleshooting, and evidence collection  
+*(all handles below are X / Twitter accounts)*:
+
+- @odeto0504
+- @dongsu
+- @LastMoney6489
+- @chochunja77
+- @Yhalresearch
+- @Koreanguy_
+- @sky314pi
+- @kwondoyun80
+- @seok_brc
+
+---
 
 ## Submission positioning
 
 For application purposes, describe this repo as:
 
 > A public demo of Aoineco’s proof-first AI infrastructure direction, showing how agent actions can produce structured, auditable, and reviewable receipts instead of unverifiable black-box behavior — and how those verified outcomes can begin accumulating into an Archive-style review layer.
+
+---
 
 ## License
 
