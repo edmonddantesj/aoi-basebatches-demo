@@ -1,20 +1,20 @@
 # Submission Checklist
 
 ## P0 — must be true before submission
-- [ ] README matches current Base Batches narrative
+- [x] README matches current Base Batches narrative
 - [ ] repo description is updated on GitHub
-- [ ] reviewer can understand the project in under 2 minutes
-- [ ] quickstart is accurate for current repo structure
-- [ ] Base rationale is stated clearly
-- [ ] current build vs long-term vision is separated clearly
-- [ ] no exaggerated / unverifiable claims remain in public docs
+- [x] reviewer can understand the project in under 2 minutes
+- [x] quickstart is accurate for current repo structure
+- [x] Base rationale is stated clearly
+- [x] current build vs long-term vision is separated clearly
+- [x] no exaggerated / unverifiable claims remain in public docs
 
 ## P0 — application package
 - [ ] final application copy locked
-- [ ] one-line summary locked
-- [ ] why Base answer locked
-- [ ] current implementation description locked
-- [ ] The Archive positioned as long-term vision, not current shipped scope
+- [x] one-line summary locked
+- [x] why Base answer locked
+- [x] current implementation description locked
+- [x] The Archive positioned as long-term vision, with early demo surface clearly separated
 
 ## P0 — founder/company intro
 - [ ] intro script finalized
@@ -23,21 +23,30 @@
 - [ ] unlisted upload completed
 - [ ] final URL inserted into application
 
+## P0 — validated usage / evidence
+- [x] verified outcomes are mentioned explicitly
+- [x] public participation / X distribution is documented
+- [x] credits placeholder for 8 contributors is created
+- [ ] verified screenshots inserted
+- [ ] failure → fix → success evidence inserted
+- [ ] anonymized contributor details filled in
+
 ## P1 — reviewer clarity
-- [ ] architecture doc reflects current codebase
-- [ ] submission summary exists
-- [ ] evidence log exists
-- [ ] proof / verification surfaces are easy to find
+- [x] architecture doc reflects current codebase
+- [x] submission summary exists
+- [x] evidence log exists
+- [x] validated evidence summary exists
+- [x] proof / verification surfaces are easy to find
 
 ## P1 — proof discipline
-- [ ] unverified historical claims remain proposal-only
-- [ ] A/B restore separation maintained
-- [ ] source refs preserved in restoration docs
+- [x] unverified historical claims remain proposal-only
+- [x] A/B restore separation maintained
+- [x] source refs preserved in restoration docs
 
 ## P2 — optional polish
 - [ ] repo screenshots / GIF added
 - [ ] short demo walkthrough screenshots added
-- [ ] example receipt JSON committed as sanitized sample
+- [x] example receipt JSON committed as sanitized sample
 - [ ] GitHub About section / tags updated
 
 ## Notes
