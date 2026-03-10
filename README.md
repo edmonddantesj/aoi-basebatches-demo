@@ -4,6 +4,9 @@
 
 **Base gives agent actions a composable path from execution to evidence.**
 
+**Explore The Archive:** https://archive.aoineco.ai/  
+**Company intro video:** https://youtu.be/Pv3H2Cenu2A
+
 Aoineco helps AI-assisted workflows produce **verified actions**, **auditable evidence**, and **reviewable outputs** — not just opaque automation logs.
 
 Many AI systems can generate outputs. Some can take actions. Very few can clearly show **what happened, whether it succeeded, and how the result should be reviewed**. This repository is the public demo slice of Aoineco’s answer to that problem.
@@ -51,7 +54,8 @@ In short: execution without evidence is not enough.
 
 ## What this demo shows
 
-This repository focuses on a narrow, reviewable slice of the broader product direction:
+This repository focuses on a narrow, reviewable slice of the broader product direction. For the broader product surface, see **The Archive**: https://archive.aoineco.ai/
+
 
 - a Base-oriented demo app
 - wallet-connected user flow
@@ -245,7 +249,7 @@ Huge thanks to these community members for their help with verification testing,
 
 For application purposes, describe this repo as:
 
-> A public demo of Aoineco’s proof-first AI infrastructure direction, showing how agent actions can produce structured, auditable, and reviewable receipts instead of unverifiable black-box behavior — and how those verified outcomes can begin accumulating into an Archive-style review layer.
+> A public demo of Aoineco’s proof-first AI infrastructure direction, showing how agent actions can produce structured, auditable, and reviewable receipts instead of unverifiable black-box behavior. The broader product surface is **The Archive** (https://archive.aoineco.ai/), where that proof-first direction becomes a user-facing trust layer.
 
 ---
 
